@@ -1,0 +1,8 @@
+language: minimal
+os: linux
+dist: bionic
+arch: arm64
+services:
+  - docker
+before_install:
+  - docker build -t hasura-arm64 .
