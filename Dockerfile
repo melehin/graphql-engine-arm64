@@ -27,4 +27,22 @@ WORKDIR $HASURA_ROOT
 RUN git clone -b v$HASURA_VER https://github.com/hasura/graphql-engine.git
 WORKDIR graphql-engine/server
 RUN /root/.cabal/bin/cabal v2-update
-RUN /root/.cabal/bin/cabal v2-build --ghc-options="+RTS -M2G -c -RTS -j1" -j1
+RUN /root/.cabal/bin/cabal v2-build --ghc-options="+RTS -M3G -c -RTS -O0 -j1" -j1
+RUN mv `find dist-newstyle/ -type f -name graphql-engine` /srv/
+
+FROM ubuntu:18.04
+ENV HASURA_ROOT /hasura/
+WORKDIR $HASURA_ROOT/
+COPY --from=0 $HASURA_ROOT/graphql-engine/console .
+RUN apt-get update && apt-get install -y wget make
+RUN wget -O - https://deb.nodesource.com/setup_10.x | bash -
+RUN apt-get update && apt-get install -y nodejs python-pip libffi-dev libssl-dev
+RUN pip install gsutil
+RUN make deps server-build
+
+FROM ubuntu:18.04
+ENV HASURA_ROOT /hasura/
+COPY --from=0 /srv/graphql-engine /srv/
+COPY --from=1 $HASURA_ROOT/static/dist/ /srv/console-assets
+RUN apt-get update && apt-get install -y libnuma-dev libpq-dev
+CMD ["/srv/graphql-engine", "serve", "--console-assets-dir", "/srv/console-assets"]
