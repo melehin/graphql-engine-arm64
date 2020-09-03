@@ -41,8 +41,9 @@ RUN pip install gsutil
 RUN make deps server-build
 
 FROM ubuntu:18.04
+LABEL maintainer="fedormelexin@gmail.com"
 ENV HASURA_ROOT /hasura/
 COPY --from=0 /srv/graphql-engine /srv/
 COPY --from=1 $HASURA_ROOT/static/dist/ /srv/console-assets
-RUN apt-get update && apt-get install -y libnuma-dev libpq-dev
+RUN apt-get update && apt-get install -y libnuma-dev libpq-dev ca-certificates && apt-get clean
 CMD ["/srv/graphql-engine", "serve", "--console-assets-dir", "/srv/console-assets"]
