@@ -2,13 +2,21 @@ FROM ubuntu:18.04
 LABEL maintainer="fedormelexin@gmail.com"
 
 ARG HASURA_VER
+ARG PG_CLIENT_VER
 ENV HASURA_VER ${HASURA_VER:-1.3.3}
+ENV PG_CLIENT_VER ${PG_CLIENT_VER:-13}
 ENV HASURA_ROOT /hasura/
 ENV LC_ALL=C.UTF-8
 WORKDIR $HASURA_ROOT
 
+# Add PG repo to fetch last clients and libs
+RUN apt-get update && apt-get install -y curl gnupg2
+# Create the file repository configuration
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt bionic-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+# Import the repository signing key
+RUN curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 # Deps
-RUN apt-get update && apt-get install -y libncurses5 git build-essential llvm wget libnuma-dev zlib1g-dev libpq-dev postgresql-client-common postgresql-client libkrb5-dev libssl-dev
+RUN apt-get update && apt-get install -y libncurses5 git build-essential llvm wget libnuma-dev zlib1g-dev libpq-dev postgresql-client-common postgresql-client-${PG_CLIENT_VER} libkrb5-dev libssl-dev
 RUN wget https://downloads.haskell.org/~ghc/8.10.1/ghc-8.10.1-aarch64-deb9-linux.tar.xz && \
     wget http://downloads.haskell.org/~cabal/cabal-install-3.2.0.0/cabal-install-3.2.0.0.tar.gz && \
     tar xf ghc-8.10.1-aarch64-deb9-linux.tar.xz && tar xzf cabal-install-3.2.0.0.tar.gz && \
@@ -45,5 +53,10 @@ LABEL maintainer="fedormelexin@gmail.com"
 ENV HASURA_ROOT /hasura/
 COPY --from=0 /srv/graphql-engine /srv/
 COPY --from=1 $HASURA_ROOT/static/dist/ /srv/console-assets
-RUN apt-get update && apt-get install -y libnuma-dev libpq-dev ca-certificates && apt-get clean
+RUN apt-get update && apt-get install -y curl gnupg2
+# Create the file repository configuration
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt bionic-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+# Import the repository signing key
+RUN curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+RUN apt-get update && apt-get install -y libnuma-dev libpq-dev postgresql-client-common postgresql-client-${PG_CLIENT_VER} ca-certificates && apt remove -y curl gnupg2 && apt autoremove -y && apt-get clean all
 CMD ["/srv/graphql-engine", "serve", "--console-assets-dir", "/srv/console-assets"]
