@@ -15,7 +15,7 @@ before_install:
   - tar xf ghc-8.10.1-aarch64-deb9-linux.tar.xz && tar xzf cabal-install-3.2.0.0.tar.gz
   - rm *.gz *.xz
   - cd ghc-8.10.1
-  - ./configure && make install
+  - ./configure && sudo make install
   - cd ../cabal-install-3.2.0.0
   - patch -p1 < ../ghc_8_10.patch
   - bash ./bootstrap.sh
