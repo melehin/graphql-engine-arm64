@@ -4,7 +4,7 @@ dist: focal
 arch: arm64
 cabal: "3.2"
 ghc:
-  - "8.10.1"
+  - "8.10.3"
 env:
   - HASURA_VERSION=1.3.3 PG_CLIENT_VER=13
 services:
