@@ -1,4 +1,3 @@
-language: haskell
 os: linux
 dist: focal
 arch: arm64
