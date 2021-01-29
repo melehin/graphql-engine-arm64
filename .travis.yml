@@ -2,7 +2,7 @@ os: linux
 dist: focal
 arch: arm64
 env:
-  - HASURA_VERSION=1.3.3 PG_CLIENT_VER=13
+  - HASURA_VERSION=1.3.3 PG_CLIENT_VER=12
 services:
   - docker
 before_install:
