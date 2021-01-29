@@ -11,7 +11,7 @@ before_install:
   - echo "deb http://apt.postgresql.org/pub/repos/apt focal-pgdg main" > sudo tee -a /etc/apt/sources.list.d/pgdg.list
   - sudo apt-get update
   - sudo sudo apt-get install -y libncurses5 git build-essential llvm wget libnuma-dev zlib1g-dev libpq-dev postgresql-client-common postgresql-client-${PG_CLIENT_VER} libkrb5-dev libssl-dev
-  - sudo apt-get install -y ghc-8.10.3 cabal-install-3.4
+  - sudo apt-get install -y ghc-8.10.1 cabal-install-3.2
   - git clone -b v${HASURA_VERSION} https://github.com/hasura/graphql-engine.git
 script:
   - cd graphql-engine/server
