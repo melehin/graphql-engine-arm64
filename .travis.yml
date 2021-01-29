@@ -22,5 +22,5 @@ before_install:
   - git clone -b v${HASURA_VERSION} https://github.com/hasura/graphql-engine.git
 script:
   - cd graphql-engine/server
-  - cabal v2-update
-  - cabal v2-build --ghc-options="+RTS -M3G -c -RTS -O0 -j1" -j1
+  - /home/travis/.cabal/bin/cabal v2-update
+  - /home/travis/.cabal/bin/cabal v2-build --ghc-options="+RTS -M3G -c -RTS -O0 -j1" -j1
