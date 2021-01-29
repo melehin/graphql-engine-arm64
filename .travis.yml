@@ -10,10 +10,10 @@ before_install:
   - sudo bash -c 'echo "deb http://apt.postgresql.org/pub/repos/apt focal-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
   - sudo apt-get update
   - sudo apt-get install -y libncurses5 git build-essential llvm wget libnuma-dev zlib1g-dev libpq-dev postgresql-client-common postgresql-client-${PG_CLIENT_VER} libkrb5-dev libssl-dev
-  - wget https://downloads.haskell.org/~ghc/8.10.1/ghc-8.10.1-aarch64-deb9-linux.tar.xz && \
-    wget http://downloads.haskell.org/~cabal/cabal-install-3.2.0.0/cabal-install-3.2.0.0.tar.gz && \
-    tar xf ghc-8.10.1-aarch64-deb9-linux.tar.xz && tar xzf cabal-install-3.2.0.0.tar.gz && \
-    rm *.gz *.xz
+  - wget https://downloads.haskell.org/~ghc/8.10.1/ghc-8.10.1-aarch64-deb9-linux.tar.xz
+  - wget http://downloads.haskell.org/~cabal/cabal-install-3.2.0.0/cabal-install-3.2.0.0.tar.gz
+  - tar xf ghc-8.10.1-aarch64-deb9-linux.tar.xz && tar xzf cabal-install-3.2.0.0.tar.gz
+  - rm *.gz *.xz
   - cd ghc-8.10.1
   - ./configure && make install
   - cd ../cabal-install-3.2.0.0
