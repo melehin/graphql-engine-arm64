@@ -3,13 +3,13 @@ os: linux
 dist: focal
 arch: arm64
 cabal: "3.2"
-ghc:
-  - "8.10.3"
+ghc: "7.10.3"
 env:
   - HASURA_VERSION=1.3.3 PG_CLIENT_VER=13
 services:
   - docker
 before_install:
+  - apt-get install -y ghc-8.10.3 cabal-install-3.4
   - echo "deb http://apt.postgresql.org/pub/repos/apt focal-pgdg main" > /etc/apt/sources.list.d/pgdg.list
   - curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
   - apt-get update && apt-get install -y libncurses5 git build-essential llvm wget libnuma-dev zlib1g-dev libpq-dev postgresql-client-common postgresql-client-${PG_CLIENT_VER} libkrb5-dev libssl-dev
