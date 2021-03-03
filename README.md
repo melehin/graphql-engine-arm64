@@ -23,6 +23,11 @@ docker run -d -p 8080:8080 \
 Hasura Console will be available at http://localhost:8080
 
 # Using docker-compose
+## :warning: Replace MYPGDBPASSWORD to your password or generate a new one!
+Uncomment HASURA_GRAPHQL_ADMIN_SECRET and set a password if you need it
+```
+dd if=/dev/random bs=128 count=1 2>/dev/null | sha1sum
+```
 Example docker-compose.yaml for hasura and postgres:
 ```yaml
 version: '3.6'
@@ -32,6 +37,8 @@ services:
     restart: always
     volumes:
     - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: MYPGDBPASSWORD 
   graphql-engine:
     image: fedormelexin/graphql-engine-arm64
     ports:
@@ -40,7 +47,7 @@ services:
     - "postgres"
     restart: always
     environment:
-      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:@postgres:5432/postgres
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:MYPGDBPASSWORD@postgres:5432/postgres
       HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
       ## uncomment next line to set an admin secret
       # HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
