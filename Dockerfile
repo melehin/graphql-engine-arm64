@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 LABEL maintainer="fedormelexin@gmail.com"
 
 ARG HASURA_VER
@@ -12,16 +12,11 @@ WORKDIR $HASURA_ROOT
 # Add PG repo to fetch last clients and libs
 RUN apt-get update && apt-get install -y gnupg2 curl apt-transport-https
 # Create the file repository configuration
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt bionic-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt focal-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 # Import the repository signing key
 RUN curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-# MSSQL
-#RUN echo "deb [arch=arm64] https://packages.microsoft.com/debian/9/multiarch/prod stretch main" > /etc/apt/sources.list.d/mssql-release.list \
-#    && curl -s https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-#    && apt-get update \
-#    && ACCEPT_EULA=Y apt-get install -y ca-certificates libkrb5-3 libpq5 libnuma1 unixodbc-dev msodbcsql17
 # Deps
-RUN apt-get update && apt-get install -y libncurses5 git build-essential llvm wget libnuma-dev zlib1g-dev libpq-dev postgresql-client-common postgresql-client-${PG_CLIENT_VER} libkrb5-dev libssl-dev
+RUN apt-get update && apt-get install -y libncurses5 libtinfo-dev unixodbc-dev git build-essential llvm wget libnuma-dev zlib1g-dev libpq-dev postgresql-client-common postgresql-client-${PG_CLIENT_VER} libkrb5-dev libssl-dev
 RUN wget https://downloads.haskell.org/~ghc/8.10.2/ghc-8.10.2-aarch64-deb10-linux.tar.xz && \
     wget http://downloads.haskell.org/~cabal/cabal-install-3.2.0.0/cabal-install-3.2.0.0.tar.gz && \
     tar xf ghc-8.10.2-aarch64-deb10-linux.tar.xz && tar xzf cabal-install-3.2.0.0.tar.gz && \
@@ -53,7 +48,7 @@ RUN apt-get update && apt-get install -y nodejs python-pip libffi-dev libssl-dev
 RUN pip install gsutil
 RUN make deps server-build
 
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 LABEL maintainer="fedormelexin@gmail.com"
 ENV HASURA_ROOT /hasura/
 COPY --from=0 /srv/graphql-engine /srv/
