@@ -10,6 +10,10 @@ git clone https://github.com/melehin/graphql-engine-arm64
 cd graphql-engine-arm64
 docker build -t fedormelexin/graphql-engine-arm64 .
 ```
+# Image versions on DockerHub
+* 1.3.3 (latest stable)
+* 1.3.1
+* 2.0.0-alpha.3
 
 # Start a Hasura instance on aarch64
 ```bash
