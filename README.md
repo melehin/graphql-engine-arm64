@@ -46,7 +46,7 @@ services:
     environment:
       POSTGRES_PASSWORD: MYPGDBPASSWORD 
   graphql-engine:
-    image: fedormelexin/graphql-engine-arm64
+    image: fedormelexin/graphql-engine-arm64 # 1.3.3 by default (see the Image versions above)
     ports:
     - "8080:8080"
     depends_on:
