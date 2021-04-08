@@ -12,7 +12,8 @@ docker build -t fedormelexin/graphql-engine-arm64 .
 ```
 # Image versions on DockerHub
 * fedormelexin/graphql-engine-arm64:1.3.3 **(latest stable)**
-* fedormelexin/graphql-engine-arm64:2.0.0-alpha.5 **(latest alpha)**
+* fedormelexin/graphql-engine-arm64:2.0.0-alpha.7 **(latest alpha)**
+* fedormelexin/graphql-engine-arm64:2.0.0-alpha.5
 * fedormelexin/graphql-engine-arm64:2.0.0-alpha.4
 * fedormelexin/graphql-engine-arm64:2.0.0-alpha.3
 * fedormelexin/graphql-engine-arm64:1.3.1
