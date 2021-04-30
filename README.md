@@ -14,7 +14,7 @@ docker build -t fedormelexin/graphql-engine-arm64 .
 For 2.0.0-*
 ```bash
 export DOCKER_USERNAME=fedormelexin
-export HASURA_VERSION=2.0.0-alpha.9
+export HASURA_VERSION=2.0.0-alpha.10
 git clone https://github.com/melehin/graphql-engine-arm64
 cd graphql-engine-arm64
 docker build --build-arg HASURA_VER=${HASURA_VERSION} -t "${DOCKER_USERNAME}/graphql-engine-arm64:${HASURA_VERSION}" .
@@ -22,7 +22,8 @@ docker build --build-arg HASURA_VER=${HASURA_VERSION} -t "${DOCKER_USERNAME}/gra
 
 # Image versions on DockerHub
 * fedormelexin/graphql-engine-arm64:1.3.3 **(latest stable)**
-* fedormelexin/graphql-engine-arm64:2.0.0-alpha.9 **(latest alpha)**
+* fedormelexin/graphql-engine-arm64:2.0.0-alpha.10 **(latest alpha)**
+* fedormelexin/graphql-engine-arm64:2.0.0-alpha.9
 * fedormelexin/graphql-engine-arm64:2.0.0-alpha.8
 * fedormelexin/graphql-engine-arm64:2.0.0-alpha.7
 * fedormelexin/graphql-engine-arm64:2.0.0-alpha.6
