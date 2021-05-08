@@ -1,20 +1,19 @@
-version: 2.0
+version: 2.1
 jobs:
   build:
+    machine:
+      image: ubuntu-2004:202101-01
     resource_class: arm.medium
     environment:
       DOCKER_USERNAME: fedormelexin
       HASURA_VERSION: 1.3.3
-    docker:
-      - image: circleci/buildpack-deps:stretch
     steps:
       - checkout
-      - setup_remote_docker
       - run:
           name: Build Docker image
           command: docker build --build-arg HASURA_VER=${HASURA_VERSION} -t "${DOCKER_USERNAME}/graphql-engine-arm64:${HASURA_VERSION}" .
 workflows:
-  version: 2
+  version: 2.1
   build-master:
     jobs:
       - build
