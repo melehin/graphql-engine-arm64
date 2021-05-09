@@ -15,7 +15,7 @@ For 2.0.0-*
 ```bash
 export DOCKER_USERNAME=fedormelexin
 export HASURA_VERSION=2.0.0-alpha.10
-git clone https://github.com/melehin/graphql-engine-arm64
+git clone https://github.com/melehin/graphql-engine-arm64 -b ghc-8.10.2
 cd graphql-engine-arm64
 docker build --build-arg HASURA_VER=${HASURA_VERSION} -t "${DOCKER_USERNAME}/graphql-engine-arm64:${HASURA_VERSION}" .
 ```
