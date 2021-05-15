@@ -26,7 +26,7 @@ export HASURA_VERSION=2.0.0-alpha.10
 export SCRIPT_VERSION=v3
 git clone https://github.com/melehin/graphql-engine-arm64 -b ghc-8.10.2
 cd graphql-engine-arm64/cli-migrations
-docker build --build-arg SCRIPT_VERSION=${SCRIPT_VERSION} --build-arg SERVER_IMAGE_TAG=${HASURA_VERSION} --build-arg SERVER_IMAGE=${DOCKER_USERNAME}/graphql-engine-arm64  -t "${DOCKER_USERNAME}/graphql-engine-arm64:v${HASURA_VERSION}.cli-migrations-v3" .
+docker build --build-arg SCRIPT_VERSION=${SCRIPT_VERSION} --build-arg SERVER_IMAGE_TAG=${HASURA_VERSION} --build-arg SERVER_IMAGE=${DOCKER_USERNAME}/graphql-engine-arm64  -t "${DOCKER_USERNAME}/graphql-engine-arm64:v${HASURA_VERSION}.cli-migrations-${SCRIPT_VERSION}" .
 ```
 
 # Image versions on DockerHub
