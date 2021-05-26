@@ -31,7 +31,8 @@ docker build --build-arg SCRIPT_VERSION=${SCRIPT_VERSION} --build-arg SERVER_IMA
 
 # Image versions on DockerHub
 * fedormelexin/graphql-engine-arm64:1.3.3 **(latest stable)**
-* fedormelexin/graphql-engine-arm64:2.0.0-alpha.10 **(latest alpha)**
+* fedormelexin/graphql-engine-arm64:2.0.0-alpha.11 **(latest alpha)**
+* fedormelexin/graphql-engine-arm64:2.0.0-alpha.10
 * fedormelexin/graphql-engine-arm64:2.0.0-alpha.9
 * fedormelexin/graphql-engine-arm64:2.0.0-alpha.8
 * fedormelexin/graphql-engine-arm64:2.0.0-alpha.7
