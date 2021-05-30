@@ -1,5 +1,5 @@
 # graphql-engine-arm64
-Dockerfile for hasura/graphql-engine to run on arm64/aarch64 (tested on Nvidia Jetson Nano, Rpi4)
+Dockerfile for [Hasura GraphQL Engine](https://github.com/hasura/graphql-engine) to run on arm64/aarch64 (tested on Nvidia Jetson Nano, Rpi4)
 
 # To run on ARMv7 check this repo first
 https://github.com/rebot/graphql-engine-armv7
