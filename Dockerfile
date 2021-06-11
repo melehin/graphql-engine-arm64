@@ -60,4 +60,4 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt bionic-pgdg main" > /etc/a
 RUN curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 RUN apt-get update && apt-get install -y libnuma-dev libpq-dev postgresql-client-common postgresql-client-${PG_CLIENT_VER} ca-certificates && apt remove -y curl gnupg2 && apt autoremove -y && apt-get clean all
 ENV PATH=/srv/:$PATH
-CMD ["graphql-engine", "serve", "--console-assets-dir", "/srv/console-assets"]
+CMD ["graphql-engine", "serve"]
