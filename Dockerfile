@@ -3,7 +3,7 @@ LABEL maintainer="fedormelexin@gmail.com"
 
 ARG HASURA_VER
 ARG PG_CLIENT_VER
-ENV HASURA_VER ${HASURA_VER:-1.3.3}
+ENV HASURA_VER ${HASURA_VER:-v1.3.3}
 ENV PG_CLIENT_VER ${PG_CLIENT_VER:-13}
 ENV HASURA_ROOT /hasura/
 ENV LC_ALL=C.UTF-8
@@ -32,7 +32,7 @@ RUN bash ./bootstrap.sh
 
 # graphql-engine
 WORKDIR $HASURA_ROOT
-RUN git clone -b v$HASURA_VER https://github.com/hasura/graphql-engine.git
+RUN git clone -b $HASURA_VER https://github.com/hasura/graphql-engine.git
 WORKDIR graphql-engine/server
 RUN /root/.cabal/bin/cabal v2-update
 RUN /root/.cabal/bin/cabal v2-build --ghc-options="+RTS -M3G -c -RTS -O0 -j1" -j1
