@@ -1,11 +1,11 @@
 FROM golang as cli-builder
 ARG SERVER_IMAGE=fedormelexin/graphql-engine-arm64
-ARG SERVER_IMAGE_TAG=2.0.0-alpha.10
+ARG SERVER_IMAGE_TAG=v2.0.0-alpha.10
 RUN apt update && apt install -y npm
 
 RUN mkdir -p /go/src/github.com/hasura
 WORKDIR /go/src/github.com/hasura
-RUN git clone https://github.com/hasura/graphql-engine -b v$SERVER_IMAGE_TAG
+RUN git clone https://github.com/hasura/graphql-engine -b $SERVER_IMAGE_TAG
 WORKDIR graphql-engine/cli
 
 # Patching
@@ -25,9 +25,9 @@ RUN apt-get update && apt-get install -y netcat
 ENV HASURA_GRAPHQL_SHOW_UPDATE_NOTIFICATION=false
 
 ARG SCRIPT_VERSION=v2
-ARG SERVER_IMAGE_TAG=2.0.0-alpha.10
+ARG SERVER_IMAGE_TAG=v2.0.0-alpha.10
 COPY --from=cli-builder /go/src/github.com/hasura/graphql-engine/scripts/cli-migrations/${SCRIPT_VERSION}/docker-entrypoint.sh /bin/
-COPY --from=cli-builder /go/src/github.com/hasura/graphql-engine/cli/_output/v${SERVER_IMAGE_TAG}-dirty/cli-hasura-linux-arm64 /bin/hasura-cli
+COPY --from=cli-builder /go/src/github.com/hasura/graphql-engine/cli/_output/${SERVER_IMAGE_TAG}-dirty/cli-hasura-linux-arm64 /bin/hasura-cli
 
 RUN chmod +x /bin/hasura-cli 
 RUN chmod +x /bin/docker-entrypoint.sh
