@@ -12,11 +12,11 @@ WORKDIR $HASURA_ROOT
 # Add PG repo to fetch last clients and libs
 RUN apt-get update && apt-get install -y gnupg2 curl apt-transport-https
 # Create the file repository configuration
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt focal-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt focal-pgdg main ${PG_CLIENT_VER}" > /etc/apt/sources.list.d/pgdg.list
 # Import the repository signing key
 RUN curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 # Deps
-RUN apt-get update && apt-get install -y libncurses5 libtinfo-dev unixodbc-dev git build-essential llvm wget libnuma-dev zlib1g-dev libpq-dev postgresql-client-common postgresql-client-${PG_CLIENT_VER} libkrb5-dev libssl-dev
+RUN apt-get update && apt-get install -y libncurses5 libtinfo-dev unixodbc-dev git build-essential llvm wget libnuma-dev zlib1g-dev libpq-dev mysql-client libmysqlclient-dev libghc-pcre-light-dev freetds-dev postgresql-client-${PG_CLIENT_VER} libkrb5-dev libssl-dev
 RUN wget https://downloads.haskell.org/~ghc/8.10.2/ghc-8.10.2-aarch64-deb10-linux.tar.xz && \
     wget http://downloads.haskell.org/~cabal/cabal-install-3.2.0.0/cabal-install-3.2.0.0.tar.gz && \
     tar xf ghc-8.10.2-aarch64-deb10-linux.tar.xz && tar xzf cabal-install-3.2.0.0.tar.gz && \
@@ -39,25 +39,30 @@ RUN /root/.cabal/bin/cabal v2-build --ghc-options="+RTS -M3G -c -RTS -O0 -j1" -j
 RUN mv `find dist-newstyle/ -type f -name graphql-engine` /srv/
 
 FROM ubuntu:18.04
+ARG PG_CLIENT_VER
 ENV HASURA_ROOT /hasura/
+ENV PG_CLIENT_VER ${PG_CLIENT_VER:-13}
 WORKDIR $HASURA_ROOT/
 COPY --from=0 $HASURA_ROOT/graphql-engine/console .
 RUN apt-get update && apt-get install -y wget make
-RUN wget -O - https://deb.nodesource.com/setup_10.x | bash -
+RUN wget -O - https://deb.nodesource.com/setup_14.x | bash -
 RUN apt-get update && apt-get install -y nodejs python-pip libffi-dev libssl-dev
 RUN pip install gsutil
 RUN make deps server-build
 
 FROM ubuntu:20.04
+ARG PG_CLIENT_VER
+ENV HASURA_ROOT /hasura/
+ENV PG_CLIENT_VER ${PG_CLIENT_VER:-13}
 LABEL maintainer="fedormelexin@gmail.com"
 ENV HASURA_ROOT /hasura/
 COPY --from=0 /srv/graphql-engine /srv/
 COPY --from=1 $HASURA_ROOT/static/dist/ /srv/console-assets
 RUN apt-get update && apt-get install -y curl gnupg2
 # Create the file repository configuration
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt bionic-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt focal-pgdg main ${PG_CLIENT_VER}" > /etc/apt/sources.list.d/pgdg.list
 # Import the repository signing key
 RUN curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-RUN apt-get update && apt-get install -y libnuma-dev unixodbc-dev libpq-dev postgresql-client-common postgresql-client-${PG_CLIENT_VER} ca-certificates && apt remove -y curl gnupg2 && apt autoremove -y && apt-get clean all
+RUN apt-get update && apt-get install -y libnuma-dev unixodbc-dev libpq-dev libmysqlclient-dev postgresql-client-${PG_CLIENT_VER} ca-certificates && apt remove -y curl gnupg2 && apt autoremove -y && apt-get clean all
 ENV PATH=/srv/:$PATH
 CMD ["graphql-engine", "serve"]
