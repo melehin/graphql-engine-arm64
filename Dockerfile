@@ -16,26 +16,22 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt focal-pgdg main ${PG_CLIEN
 # Import the repository signing key
 RUN curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 # Deps
-RUN apt-get update && apt-get install -y libncurses5 libtinfo-dev unixodbc-dev git build-essential llvm wget libnuma-dev zlib1g-dev libpq-dev mysql-client libmysqlclient-dev libghc-pcre-light-dev freetds-dev postgresql-client-${PG_CLIENT_VER} libkrb5-dev libssl-dev
+RUN apt-get update && apt-get install -y libncurses5 libtinfo-dev unixodbc-dev git build-essential llvm-9 wget libnuma-dev zlib1g-dev libpq-dev mysql-client libmysqlclient-dev libghc-pcre-light-dev freetds-dev postgresql-client-${PG_CLIENT_VER} libkrb5-dev libssl-dev
 RUN wget https://downloads.haskell.org/~ghc/8.10.2/ghc-8.10.2-aarch64-deb10-linux.tar.xz && \
-    wget http://downloads.haskell.org/~cabal/cabal-install-3.2.0.0/cabal-install-3.2.0.0.tar.gz && \
-    tar xf ghc-8.10.2-aarch64-deb10-linux.tar.xz && tar xzf cabal-install-3.2.0.0.tar.gz && \
-    rm *.gz *.xz
+    wget https://downloads.haskell.org/~cabal/cabal-install-3.4.0.0/cabal-install-3.4.0.0-aarch64-ubuntu-18.04.tar.xz && \
+    tar xf ghc* && tar xf cabal-install-3.4.0.0* && \
+    rm *.xz
 WORKDIR $HASURA_ROOT/ghc-8.10.2
 RUN ./configure && make install
 WORKDIR $HASURA_ROOT/
-# from https://aur.archlinux.org/cgit/aur.git/plain/ghc_8_10.patch?h=cabal-static
-COPY ghc_8_10.patch .
-WORKDIR $HASURA_ROOT/cabal-install-3.2.0.0
-RUN patch -p1 < ../ghc_8_10.patch
-RUN bash ./bootstrap.sh
+RUN mv cabal /usr/bin
 
 # graphql-engine
 WORKDIR $HASURA_ROOT
 RUN git clone -b $HASURA_VER https://github.com/hasura/graphql-engine.git
 WORKDIR graphql-engine/server
-RUN /root/.cabal/bin/cabal v2-update
-RUN /root/.cabal/bin/cabal v2-build --ghc-options="+RTS -M3G -c -RTS -O0 -j1" -j1
+RUN cabal v2-update
+RUN cabal v2-build --ghc-options="+RTS -M3G -c -RTS -O0 -j1" -j1
 RUN mv `find dist-newstyle/ -type f -name graphql-engine` /srv/
 
 FROM ubuntu:18.04

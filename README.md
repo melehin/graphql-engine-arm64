@@ -2,7 +2,9 @@
 Dockerfile for [Hasura GraphQL Engine](https://github.com/hasura/graphql-engine) to run on arm64/aarch64 (tested on Nvidia Jetson Nano, Rpi4, Apple M1)
 
 # Image versions on DockerHub (main images, cli-migrations available on DockerHub also)
-* fedormelexin/graphql-engine-arm64:v2.0.3 **(latest stable)**
+* fedormelexin/graphql-engine-arm64:v2.0.5 **(latest stable)**
+* fedormelexin/graphql-engine-arm64:v2.0.4
+* fedormelexin/graphql-engine-arm64:v2.0.3
 * fedormelexin/graphql-engine-arm64:v2.0.2
 * fedormelexin/graphql-engine-arm64:v2.0.1
 * fedormelexin/graphql-engine-arm64:v2.0.0
@@ -13,7 +15,7 @@ Dockerfile for [Hasura GraphQL Engine](https://github.com/hasura/graphql-engine)
 For v2.0.2+
 ```bash
 export DOCKER_USERNAME=fedormelexin
-export HASURA_VERSION=v2.0.3
+export HASURA_VERSION=v2.0.5
 git clone https://github.com/melehin/graphql-engine-arm64
 cd graphql-engine-arm64
 docker build --build-arg HASURA_VER=${HASURA_VERSION} -t "${DOCKER_USERNAME}/graphql-engine-arm64:${HASURA_VERSION}" .
@@ -21,7 +23,7 @@ docker build --build-arg HASURA_VER=${HASURA_VERSION} -t "${DOCKER_USERNAME}/gra
 CLI migrations v2 or v3 for v2.0.2+
 ```bash
 export DOCKER_USERNAME=fedormelexin
-export HASURA_VERSION=v2.0.3
+export HASURA_VERSION=v2.0.5
 export SCRIPT_VERSION=v3
 git clone https://github.com/melehin/graphql-engine-arm64
 cd graphql-engine-arm64/cli-migrations
