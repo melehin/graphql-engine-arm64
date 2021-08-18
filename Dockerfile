@@ -32,7 +32,7 @@ RUN git clone -b $HASURA_VER https://github.com/hasura/graphql-engine.git
 WORKDIR graphql-engine/server
 RUN cabal v2-update
 RUN cabal v2-build --ghc-options="+RTS -M3G -c -RTS -O0 -j1" -j1
-RUN mv `find dist-newstyle/ -type f -name graphql-engine` /srv/
+RUN mv `find ../dist-newstyle/ -type f -name graphql-engine` /srv/
 
 FROM ubuntu:18.04
 ARG PG_CLIENT_VER
