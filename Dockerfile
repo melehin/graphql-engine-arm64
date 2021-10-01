@@ -12,7 +12,7 @@ WORKDIR $HASURA_ROOT
 # Add PG repo to fetch last clients and libs
 RUN apt-get update && apt-get install -y gnupg2 curl apt-transport-https
 # Create the file repository configuration
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt focal-pgdg main ${PG_CLIENT_VER}" > /etc/apt/sources.list.d/pgdg.list
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt focal-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 # Import the repository signing key
 RUN curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 # Deps
@@ -42,8 +42,8 @@ WORKDIR $HASURA_ROOT/
 COPY --from=0 $HASURA_ROOT/graphql-engine/console .
 RUN apt-get update && apt-get install -y wget make
 RUN wget -O - https://deb.nodesource.com/setup_14.x | bash -
-RUN apt-get update && apt-get install -y nodejs python-pip libffi-dev libssl-dev
-RUN pip install gsutil
+RUN apt-get update && apt-get install -y nodejs python3-pip libffi-dev libssl-dev && pip3 install --upgrade pip
+RUN pip3 install gsutil
 RUN make deps server-build
 
 FROM ubuntu:20.04
@@ -56,7 +56,7 @@ COPY --from=0 /srv/graphql-engine /srv/
 COPY --from=1 $HASURA_ROOT/static/dist/ /srv/console-assets
 RUN apt-get update && apt-get install -y curl gnupg2
 # Create the file repository configuration
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt focal-pgdg main ${PG_CLIENT_VER}" > /etc/apt/sources.list.d/pgdg.list
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt focal-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 # Import the repository signing key
 RUN curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 RUN apt-get update && apt-get install -y libnuma-dev unixodbc-dev libpq-dev libmysqlclient-dev postgresql-client-${PG_CLIENT_VER} ca-certificates && apt remove -y curl gnupg2 && apt autoremove -y && apt-get clean all
