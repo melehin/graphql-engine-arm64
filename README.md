@@ -1,4 +1,4 @@
-# arm64 versions are available in [the official repository](https://hub.docker.com/r/hasura/graphql-engine) started from v2.1.0-beta.3
+# :warning: this repository is no longer maintained because there are arm64 versions in [the official repository](https://hub.docker.com/r/hasura/graphql-engine) started from v2.1.0-beta.3
 
 # graphql-engine-arm64
 Dockerfile for [Hasura GraphQL Engine](https://github.com/hasura/graphql-engine) to run on arm64/aarch64 (tested on Nvidia Jetson Nano, Rpi4, Apple M1)
